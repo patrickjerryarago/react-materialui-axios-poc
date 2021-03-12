@@ -57,6 +57,7 @@ class UserList extends Component {
   }
 
   setActiveUser(user, index) {
+      console.log(user)
     this.setState({
         currentUser: user,
       currentIndex: index
@@ -70,7 +71,7 @@ class UserList extends Component {
         this.refreshUserList();
       })
       .catch(e => {
-        console.log(e);
+        console.log(this.state.currentUser)
       });
   }
 
@@ -83,7 +84,7 @@ class UserList extends Component {
         console.log(response.data);
       })
       .catch(e => {
-        console.log(e);
+        console.log(this.state.currentUser)
       });
   }
 
@@ -130,8 +131,7 @@ class UserList extends Component {
               size="small"
               color="secondary"
               variant="contained"
-              onClick={this.removeAllUsers}
-            >
+              onClick={this.removeAllUsers}>
               Remove All
           </Button>
           </Grid>
@@ -151,14 +151,8 @@ class UserList extends Component {
                   </label>{" "}
                   {currentUser.nickName}
                 </div>
-                <div className={classes.detail}>
-                  <label>
-                    <strong>Status:</strong>
-                  </label>{" "}
-                  {currentUser.published ? "Published" : "Pending"}
-                </div>
                 <Link
-                  to={"/users/" + currentUser.id}
+                  to={"/users/" + currentUser._id}
                   className={classes.edit}>
                   Edit
               </Link>

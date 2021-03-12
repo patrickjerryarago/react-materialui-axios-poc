@@ -67,13 +67,13 @@ class User extends Component {
     }
     updatePublished(status) {
         var data = {
-            id: this.state.currentUser.id,
+            id: this.state.currentUser._id,
             name: this.state.currentUser.name,
             nickName: this.state.currentUser.nickName,
             published: status
         };
 
-        UserDataService.update(this.state.currentUser.id, data)
+        UserDataService.update(this.state.currentUser._id, data)
             .then(response => {
                 this.setState(prevState => ({
                     currentUser: {
@@ -84,37 +84,37 @@ class User extends Component {
                 console.log(response.data);
             })
             .catch(e => {
-                console.log(e);
+                console.log(this.state.currentUser)
             });
     }
 
 
     updateUser() {
-    //     UserDataService.update(
-    //         this.state.currentUser.id,
-    //         this.state.currentUser
-    //     )
-    //         .then(response => {
-    //             console.log(response.data);
-    //             this.setState({
-    //                 message: "The user has updated successfully!"
-    //             });
-    //         })
-    //         .catch(e => {
-    //             // console.log(e);
-    //             console.log(this.state.currentUser)
-    //         });
-        console.log(this.state)
+        UserDataService.update(
+            this.state.currentUser._id,
+            this.state.currentUser
+        )
+            .then(response => {
+                console.log(response.data);
+                this.setState({
+                    message: "The user has updated successfully!"
+                });
+            })
+            .catch(e => {
+                // console.log(e);
+                console.log(this.state.currentUser)
+            });
+        // console.log(this.state)
     }
 
     deleteUser() {
-        UserDataService.delete(this.state.currentUser.id)
+        UserDataService.delete(this.state.currentUser._id)
             .then(response => {
                 console.log(response.data);
                 this.props.history.push('/users')
             })
             .catch(e => {
-                console.log(e);
+                console.log(this.state.currentUser)
             });
     }
 
@@ -148,27 +148,8 @@ class User extends Component {
                                     required
                                 />
                             </div>
-                            <div className="form-group">
-                                <label>
-                                    <strong>Status: </strong>
-                                </label>
-                                {currentUser.published ? "Published" : "Pending"}
-                            </div>
                         </form>
                         <div className={classes.buttonWrapper}>
-                        {currentUser.published ? (
-                                <Button
-                                    className={`${classes.publish} ${classes.button}`}
-                                    onClick={() => this.updatePublished(false)}>
-                                    UnPublish
-                                </Button> ) : (
-                                <Button
-                                    className={`${classes.publish} ${classes.button}`}
-                                    onClick={() => this.updatePublished(true)}>
-                                    Publish
-                                </Button>
-                        )}
-
                             <Button
                                 className={`${classes.delete} ${classes.button}`}
                                 onClick={this.deleteUser}>
